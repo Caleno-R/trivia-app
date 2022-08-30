@@ -1,4 +1,5 @@
 import os
+import sys
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -8,11 +9,12 @@ from models import setup_db, Question, Category
 
 QUESTIONS_PER_PAGE = 10
 
+
 def paginate_questions(request, selection):
 
     page = request.args.get('page', 1, type=int)
-    start = (page-1) *QUESTIONS_PER_PAGE
-    end = start +  QUESTIONS_PER_PAGE
+    start = (page-1) * QUESTIONS_PER_PAGE
+    end = start + QUESTIONS_PER_PAGE
 
     questions_formatted = [question.format() for question in selection]
     current_questions = questions_formatted[start:end]
@@ -35,8 +37,10 @@ def create_app(test_config=None):
     """
     @app.after_request
     def after_request(response):
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+        response.headers.add('Access-Control-Allow-Headers',
+                             'Content-Type,Authorization,true')
+        response.headers.add('Access-Control-Allow-Methods',
+                             'GET,POST,PUT,DELETE,OPTIONS')
 
         return response
 
@@ -51,16 +55,36 @@ def create_app(test_config=None):
             categories = Category.query.order_by(Category.type).all()
 
             return jsonify({
-            'success': True,
-            'categories': {category.id: category.type for category in categories}
+                'success': True,
+                'categories': {category.id: category.type for category in categories}
 
-        })
+            })
         except Exception as e:
             abort(404)
-    
-    # @app.route('/questions', methods=['GET', 'DELETE'])
-    # def get_questions():
 
+    @app.route('/questions')
+    def get_questions():
+        try:
+            selection = Question.query.order_by(Question.id).all()
+            categories = Category.query.order_by(Category.id).all()
+
+            current_questions = paginate_questions(request, selection)
+            categories_formatted = {category.id: categories.type for category in categories}
+
+            if len(current_questions) == 0:
+                abort(404)
+
+            return jsonify({
+                'success': True,
+                'questions': current_questions,
+                'total_questions': len(selection.all()),
+                'current_category': None,
+                'categories': categories_formatted
+
+            })
+        except Exception as e:
+            print(sys.exc_info())
+            abort(404)
 
     """
     @TODO:
@@ -137,4 +161,3 @@ def create_app(test_config=None):
     """
 
     return app
-
