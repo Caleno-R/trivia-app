@@ -62,30 +62,6 @@ def create_app(test_config=None):
         except Exception as e:
             abort(404)
 
-    @app.route('/questions')
-    def get_questions():
-        try:
-            selection = Question.query.order_by(Question.id).all()
-            categories = Category.query.order_by(Category.id).all()
-
-            current_questions = paginate_questions(request, selection)
-            categories_formatted = {category.id: categories.type for category in categories}
-
-            if len(current_questions) == 0:
-                abort(404)
-
-            return jsonify({
-                'success': True,
-                'questions': current_questions,
-                'total_questions': len(selection.all()),
-                'current_category': None,
-                'categories': categories_formatted
-
-            })
-        except Exception as e:
-            print(sys.exc_info())
-            abort(404)
-
     """
     @TODO:
     Create an endpoint to handle GET requests for questions,
@@ -99,17 +75,39 @@ def create_app(test_config=None):
     Clicking on the page numbers should update the questions.
     """
 
+    @app.route('/questions')
+    def retrieve_questions():
+        try:
+            selection = Question.query.order_by(Question.id).all()
+            categories = Category.query.order_by(Category.id).all()
+
+            current_questions = paginate_questions(request, selection)
+            categories_formatted = {
+                category.id: category.type for category in categories}
+
+            if len(current_questions) == 0:
+                abort(404)
+
+            return jsonify({
+                'success': True,
+                'questions': current_questions,
+                'total_questions': len(selection),
+                'current_category': None,
+                'categories': categories_formatted
+
+            })
+        except Exception as e:
+            print(sys.exc_info())
+            abort(404)
+
     """
-
-
-
-
     @TODO:
     Create an endpoint to DELETE question using a question ID.
 
     TEST: When you click the trash icon next to a question, the question will be removed.
     This removal will persist in the database and when you refresh the page.
     """
+
 
     """
     @TODO:
