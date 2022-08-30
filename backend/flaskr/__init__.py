@@ -1,6 +1,7 @@
 import datetime
 import os
 import sys
+from tkinter import NO
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -134,6 +135,34 @@ def create_app(test_config=None):
     only question that include that string within their question.
     Try using the word "title" to start.
     """
+    @app.route('/search', methods=['POST'])
+    def search_questions():
+
+        # Get data from the request body
+        body = request.get_json()
+
+        search_term = body.get('search', None)
+
+        try:
+            if search_term:
+
+                # Search for case insensitive strings
+                search_results = Question.query.order_by(Question.id).filter(
+                    Question.title.ilike('%{}%'.format(search_term))
+                )
+                questions_formatted = [search_results.format()
+                                       for question in search_results]
+
+                return jsonify({
+                    'success': True,
+                    'questions': questions_formatted,
+                    'current_category': None,
+                    'total_questions': len(search_results.all())
+
+                })
+        except Exception as e:
+            print(sys.exc_info())
+            abort(422)
 
     """
     @TODO:
@@ -161,5 +190,25 @@ def create_app(test_config=None):
     Create error handlers for all expected errors
     including 404 and 422.
     """
+
+    @app.errorhandler(400)
+    def bad_request(error):
+        return jsonify({"success": False, "error": 400, "message": "bad request"}), 400    
+
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({"success": False, "error": 404, "message": "resource not found"}), 404
+    
+    @app.errorhandler(405)
+    def not_found(error):
+        return jsonify({"success": False, "error": 405, "message": "method not allowed"}), 405
+    
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({"success": False, "error": 404, "message": "resource not found"}), 422
+
+    
+
 
     return app
