@@ -4,6 +4,7 @@ import sys
 from tkinter import NO
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
+import random
 from flask_cors import CORS
 import random
 
@@ -168,23 +169,36 @@ def create_app(test_config=None):
             print(sys.exc_info())
             abort(422)
 
-    """
-    @TODO:
-    Create a POST endpoint to get questions to play the quiz.
-    This endpoint should take category and previous question parameters
-    and return a random questions within the given category,
-    if provided, and that is not one of the previous questions.
-
-    TEST: In the "Play" tab, after a user selects "All" or a category,
-    one question at a time is displayed, the user is allowed to answer
-    and shown whether they were correct or not.
-    """
-    @app.route('/questions', methods=['POST'])
+    @app.route('/quizzes', methods=['POST'])
     def get_quiz_questions():
         try:
             # Get data from the request body
             body = request.get_json()
-            print(body)
+            category: Category = body.get('quiz_category', None)
+            previous_questions_id: list[int] = body.get(
+                'previous_questions', None)
+            is_not_randomQuestion: bool = True
+            while is_not_randomQuestion:
+                all_question_ids = [
+                    question.id for question in Question.query.all()]
+                random_question_id: int = random.choice(all_question_ids)
+                if random_question_id not in previous_questions_id:
+                    random_question: Question = Question.query.get(
+                        random_question_id)
+                    if random_question.category == category['id']:
+                        is_not_randomQuestion = False
+
+            return jsonify({
+                'success': True,
+                'previousQuestions': previous_questions_id,
+                'question': {
+                    'question': random_question.question,
+                    'answer': random_question.answer,
+                    'category': random_question.category,
+                    'difficulty': random_question.difficulty
+                }
+            })
+
         except Exception as e:
             print(sys.exc_info())
             abort(422)
