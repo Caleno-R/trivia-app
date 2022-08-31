@@ -69,8 +69,8 @@ def create_app(test_config=None):
                 'success': True,
                 'questions': current_questions,
                 'total_questions': len(selection),
-                'current_category': None,
-                'categories': categories_formatted
+                'categories': categories_formatted,
+                'current_category': None
 
             })
         except Exception as e:
@@ -125,23 +125,13 @@ def create_app(test_config=None):
             print(sys.exc_info())
             abort(422)
 
-    """
-    @TODO:
-    Create a POST endpoint to get questions based on a search term.
-    It should return any questions for whom the search term
-    is a substring of the question.
-
-    TEST: Search by any phrase. The questions list will update to include
-    only question that include that string within their question.
-    Try using the word "title" to start.
-    """
-    @app.route('/search', methods=['POST'])
+    @app.route('/questions/search', methods=['POST'])
     def search_questions():
 
         # Get data from the request body
         body = request.get_json()
 
-        search_term = body.get('search', None)
+        search_term = body.get('searchTerm', None)
 
         try:
             # Search for case insensitive strings
@@ -154,7 +144,6 @@ def create_app(test_config=None):
             return jsonify({
                 'success': True,
                 'search': questions_formatted,
-                # 'body': search_results,
                 'current_category': None,
                 'total_questions': len(search_results.all())
             })
@@ -162,19 +151,11 @@ def create_app(test_config=None):
             print(sys.exc_info())
             abort(422)
 
-    """
-    @TODO: Create a GET endpoint to get questions based on category.
-
-    TEST: In the "List" tab / main screen, clicking on one of the
-    categories in the left column will cause only questions of that
-    category to be shown.
-    """
-
-    @app.route('/categories<int:category_id>/questions')
+    @app.route('/categories/<int:category_id>/questions')
     def question_by_category(category_id):
         try:
             questions = Question.query.filter(
-                Question.category == category_id.all())
+                Question.category == category_id).all()
             questions_formatted = [question.format() for question in questions]
 
             return jsonify({
