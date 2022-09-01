@@ -185,7 +185,9 @@ def create_app(test_config=None):
                 if random_question_id not in previous_questions_id:
                     random_question: Question = Question.query.get(
                         random_question_id)
-                    if random_question.category == category['id']:
+                    if int(category['id']) == 0:
+                        is_not_randomQuestion == False
+                    if random_question.category == int(category['id']):
                         is_not_randomQuestion = False
 
             return jsonify({
