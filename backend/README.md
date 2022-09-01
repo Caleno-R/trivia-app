@@ -244,6 +244,43 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 }
 ```
 
+`POST /'questions/search'`
+
+- Search a question.
+- Request arguments:
+  - `searchTerm` (string) - The term to search
+- Returns: An object with these keys:
+  - `searchTerm`: The search term object containing the question searched for, its answer, category and difficulty
+  - `current_category`: The current category
+  - `success`: The success flag
+  - `total_questions`: The total of questions
+- JSON file format
+
+```json
+{
+  "searchTerm": "title"
+}
+```
+
+- Response
+
+```json
+{
+  "SearchTerm": [
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    }
+  ],
+  "current_category": null,
+  "success": true,
+  "total_questions": 1
+}
+```
+
 ## Testing
 
 Write at least one test for the success and at least one error behavior of each endpoint using the unittest library.
@@ -260,6 +297,7 @@ python test_flaskr.py
 ## Errors
 
 ### Error 400
+
 - Returns an object with these keys: `success`, `error` and `message`.
 
 ```json
@@ -271,6 +309,7 @@ python test_flaskr.py
 ```
 
 ### Error 404
+
 - Returns an object with these keys: `success`, `error` and `message`.
 
 ```json
@@ -280,18 +319,21 @@ python test_flaskr.py
   "message": "resource not found"
 }
 ```
+
 ### Error 405
+
 - Returns an object with these keys: `success`, `error` and `message`.
-  
+
 ```json
 {
   "success": false,
   "error": 405,
   "message": "method not allowed"
-
 }
 ```
+
 ### Error 422
+
 - Returns an object with these keys: `success`, `error` and `message`.
 
 ```json
