@@ -74,15 +74,123 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 ```json
 {
-    "categories": {
-        "1": "history",
-        "2": "science",
-        "3" : "Geography",
-        "4" : "History",
-        "5" : "Entertainment",
-        "6" : "Sports"
-        },
-    "success": true
+  "categories": {
+    "1": "history",
+    "2": "science",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true
+}
+```
+
+`GET '/questions'`
+
+- Fetches:
+
+  - A dictionary of all categories
+  - The current category
+  - A list of questions - 10 questions per page
+  - The number total of questions
+
+- Request arguments:
+
+  - `page` (integer) - The current page
+
+- Returns: An object with these keys:
+  - `categories`: A dictionary of categories
+  - `questions`: A list of questions - 10 questions per page
+  - `current_category`: The current category
+  - `success`: The success flag
+  - `total_questions`: The total of questions
+
+```json
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "current_category": null,
+  "questions": [
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    },
+    {
+      "answer": "George Washington Carver",
+      "category": 4,
+      "difficulty": 2,
+      "id": 12,
+      "question": "Who invented Peanut Butter?"
+    },
+    {
+      "answer": "Lake Victoria",
+      "category": 3,
+      "difficulty": 2,
+      "id": 13,
+      "question": "What is the largest lake in Africa?"
+    },
+    {
+      "answer": "The Palace of Versailles",
+      "category": 3,
+      "difficulty": 3,
+      "id": 14,
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    },
+    {
+      "answer": "Agra",
+      "category": 3,
+      "difficulty": 2,
+      "id": 15,
+      "question": "The Taj Mahal is located in which Indian city?"
+    },
+    {
+      "answer": "Escher",
+      "category": 2,
+      "difficulty": 1,
+      "id": 16,
+      "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+    },
+    {
+      "answer": "Mona Lisa",
+      "category": 2,
+      "difficulty": 3,
+      "id": 17,
+      "question": "La Giaconda is better known as what?"
+    }
+  ],
+  "success": true,
+  "total_questions": 34
 }
 ```
 
@@ -98,9 +206,10 @@ One note before you delve into your tasks: for each endpoint, you are expected t
   "message": "Question deleted successfully ",
   "success": true
 }
-
 ```
+
 `POST /'questions'`
+
 - Inserting a new question
 - URI:- http://127.0.0.1:5000/questions
 - JSON file format
@@ -109,13 +218,14 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 {
   "answer": "blue",
   "category": "2",
-  "difficulty": 1,    
+  "difficulty": 1,
   "id": 10,
   "question": "What is the colour of sky"
 }
 ```
-  
+
 - Response
+
 ```json
 {
   "question": {
