@@ -114,7 +114,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
   "question": "What is the colour of sky"
 }
   
-  Response
+Response
 {
   "question": {
     "answer": "blue",
