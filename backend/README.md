@@ -73,17 +73,17 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 - Response
 
 ```json
- * {
-      "categories": {
-          "1": "history",
-          "2": "science",
-          "3" : "Geography",
-          "4" : "History",
-          "5" : "Entertainment",
-          "6" : "Sports"
-          },
-      "success": true
-          }
+{
+    "categories": {
+        "1": "history",
+        "2": "science",
+        "3" : "Geography",
+        "4" : "History",
+        "5" : "Entertainment",
+        "6" : "Sports"
+        },
+    "success": true
+}
 ```
 
 `DELETE /questions/<int:id>'`
@@ -93,11 +93,11 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 - Response
 
 ```json
-* {
-    "id": 12,
-    "message": "Question deleted successfully ",
-    "success": true
-  }
+{
+  "id": 12,
+  "message": "Question deleted successfully ",
+  "success": true
+}
 
 ```
 `POST /'questions'`
@@ -106,25 +106,25 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 - JSON file format
 
 ```json
-* {
+{
+  "answer": "blue",
+  "category": "2",
+  "difficulty": 1,    
+  "id": 10,
+  "question": "What is the colour of sky"
+}
+  
+  Response
+{
+  "question": {
     "answer": "blue",
     "category": "2",
-    "difficulty": 1,    
-    "id": 10,
+    "difficulty": 1,
+    "id": 17,
     "question": "What is the colour of sky"
-  }
-  
-  * Response
-    * {
-        "question": {
-           "answer": "blue",
-           "category": "2",
-           "difficulty": 1,
-           "id": 17,
-           "question": "What is the colour of sky"
-                    },
-        "success": true
-       }
+  },
+  "success": true
+}
 ```
 
 ## Testing
