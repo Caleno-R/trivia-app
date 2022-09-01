@@ -211,6 +211,11 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 `POST /'questions'`
 
 - Inserting a new question
+- Request arguments:
+  - `answer` (string) - The answer
+  - `category` (string) - The question category
+  - `difficulty` (string) - The question difficulty
+  - `question` (string) - The question
 - URI:- http://127.0.0.1:5000/questions
 - JSON file format
 
@@ -250,4 +255,50 @@ dropdb trivia_test
 createdb trivia_test
 psql trivia_test < trivia.psql
 python test_flaskr.py
+```
+
+## Errors
+
+### Error 400
+- Returns an object with these keys: `success`, `error` and `message`.
+
+```json
+{
+  "success": false,
+  "error": 400,
+  "message": "bad request"
+}
+```
+
+### Error 404
+- Returns an object with these keys: `success`, `error` and `message`.
+
+```json
+{
+  "success": false,
+  "error": 404,
+  "message": "resource not found"
+}
+```
+
+### Error 422
+- Returns an object with these keys: `success`, `error` and `message`.
+
+```json
+{
+  "success": false,
+  "error": 422,
+  "message": "unprocessable"
+}
+```
+
+### Error 500
+- Returns an object with these keys: `success`, `error` and `message`.
+
+```json
+{
+  "success": false,
+  "error": 500,
+  "message": "internal server error"
+}
 ```
