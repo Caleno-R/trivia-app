@@ -50,11 +50,6 @@ The `--reload` flag will detect file changes and restart the server automaticall
 
 ## To Do Tasks
 
-These are the files you'd want to edit in the backend:
-
-1. `backend/flaskr/__init__.py`
-2. `backend/test_flaskr.py`
-
 One note before you delve into your tasks: for each endpoint, you are expected to define the endpoint and response data. The frontend will be a plentiful resource because it is set up to expect certain endpoints and response data formats already. You should feel free to specify endpoints in your own way; if you do so, make sure to update the frontend or you will get some unexpected behavior.
 
 1. Use Flask-CORS to enable cross-domain requests and set response headers.
@@ -67,27 +62,69 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 8. Create a `POST` endpoint to get questions to play the quiz. This endpoint should take a category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions.
 9. Create error handlers for all expected errors including 400, 404, 422, and 500.
 
-## Documenting your Endpoints
+## Documenting Endpoints
 
-You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
+### Documentation of Some Endpoints
 
-### Documentation Example
+`GET '/categories'`
 
-`GET '/api/v1.0/categories'`
-
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
-- Returns: An object with a single key, `categories`, that contains an object of `id: category_string` key: value pairs.
+- Returns: All categories
+- URI:- http://127.0.0.1:5000/categories
+- Response
 
 ```json
-{
-  "1": "Science",
-  "2": "Art",
-  "3": "Geography",
-  "4": "History",
-  "5": "Entertainment",
-  "6": "Sports"
-}
+ * {
+      "categories": {
+          "1": "history",
+          "2": "science",
+          "3" : "Geography",
+          "4" : "History",
+          "5" : "Entertainment",
+          "6" : "Sports"
+          },
+      "success": true
+          }
+```
+
+`DELETE /questions/<int:id>'`
+
+- Returns: Deleted question with given ID.
+- URI:- http://127.0.0.1:5000/questions/12
+- Response
+
+```json
+* {
+    "id": 12,
+    "message": "Question deleted successfully ",
+    "success": true
+  }
+
+```
+`POST /'questions'`
+- Inserting a new question
+- URI:- http://127.0.0.1:5000/questions
+- JSON file format
+
+```json
+* {
+    "answer": "blue",
+    "category": "2",
+    "difficulty": 1,    
+    "id": 10,
+    "question": "What is the colour of sky"
+  }
+  
+  * Response
+    * {
+        "question": {
+           "answer": "blue",
+           "category": "2",
+           "difficulty": 1,
+           "id": 17,
+           "question": "What is the colour of sky"
+                    },
+        "success": true
+       }
 ```
 
 ## Testing
