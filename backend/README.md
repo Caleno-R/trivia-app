@@ -194,7 +194,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 }
 ```
 
-`DELETE /questions/<int:id>'`
+`DELETE '/questions/<int:id>'`
 
 - Returns: Deleted question with given ID.
 - URI:- http://127.0.0.1:5000/questions/12
@@ -208,7 +208,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 }
 ```
 
-`POST /'questions'`
+`POST '/questions'`
 
 - Inserting a new question
 - Request arguments:
@@ -244,7 +244,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 }
 ```
 
-`POST /'questions/search'`
+`POST '/questions/search'`
 
 - Search a question.
 - Request arguments:
@@ -281,17 +281,18 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 }
 ```
 
-`GET 'categories/<int:category_id>/questions'`
+`GET '/categories/<int:category_id>/questions'`
 
 - Fetches a list of questions based on category.
 - Request arguments:
   - `category_id` (integer): The category id
 - Returns: An object with these keys:
+
   - `current_category`: The current category
   - `questions`: A list of questions in that category
   - `success`: The success flag
   - `total_questions`: The total of number questions in that category
-  
+
 - Response for URI http://127.0.0.1:5000/categories/2/questions
 
 ```json
@@ -329,6 +330,43 @@ One note before you delve into your tasks: for each endpoint, you are expected t
   ],
   "succeed": true,
   "total_questions": 4
+}
+```
+
+`POST '/quizzes'`
+
+- Fetches a question to play the quiz.
+- Request arguments:
+  - `quiz_category`: A dictionary of the quiz category with the `type` and the `id`.
+  - `previous_ids`: A list of strings of the previous questions ids
+- Returns: An object with these keys:
+  - `previousQuestion` - An array of previous questions
+  - `question`: A dictionary of the question to play
+  - `success`: The success flag
+- JSON file format
+
+```json
+{
+  "quiz_category": {
+    "type": "Science",
+    "id": 1
+  },
+  "previous_questions": []
+}
+```
+
+- Response
+
+```json
+{
+  "previousQuestions": [],
+  "question": {
+    "answer": "The Liver",
+    "category": 1,
+    "difficulty": 4,
+    "question": "What is the heaviest organ in the human body?"
+  },
+  "success": true
 }
 ```
 
