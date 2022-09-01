@@ -113,8 +113,10 @@ One note before you delve into your tasks: for each endpoint, you are expected t
   "id": 10,
   "question": "What is the colour of sky"
 }
+```
   
-Response
+- Response
+```json
 {
   "question": {
     "answer": "blue",
