@@ -253,7 +253,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
   - `searchTerm`: The search term object containing the question searched for, its answer, category and difficulty
   - `current_category`: The current category
   - `success`: The success flag
-  - `total_questions`: The total of questions
+  - `total_questions`: The total number of questions with the search term
 - JSON file format
 
 ```json
@@ -278,6 +278,57 @@ One note before you delve into your tasks: for each endpoint, you are expected t
   "current_category": null,
   "success": true,
   "total_questions": 1
+}
+```
+
+`GET 'categories/<int:category_id>/questions'`
+
+- Fetches a list of questions based on category.
+- Request arguments:
+  - `category_id` (integer): The category id
+- Returns: An object with these keys:
+  - `current_category`: The current category
+  - `questions`: A list of questions in that category
+  - `success`: The success flag
+  - `total_questions`: The total of number questions in that category
+  
+- Response for URI http://127.0.0.1:5000/categories/2/questions
+
+```json
+{
+  "current_categories": 2,
+  "questions": [
+    {
+      "answer": "Escher",
+      "category": 2,
+      "difficulty": 1,
+      "id": 16,
+      "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+    },
+    {
+      "answer": "Mona Lisa",
+      "category": 2,
+      "difficulty": 3,
+      "id": 17,
+      "question": "La Giaconda is better known as what?"
+    },
+    {
+      "answer": "One",
+      "category": 2,
+      "difficulty": 4,
+      "id": 18,
+      "question": "How many paintings did Van Gogh sell in his lifetime?"
+    },
+    {
+      "answer": "Jackson Pollock",
+      "category": 2,
+      "difficulty": 2,
+      "id": 19,
+      "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+    }
+  ],
+  "succeed": true,
+  "total_questions": 4
 }
 ```
 
