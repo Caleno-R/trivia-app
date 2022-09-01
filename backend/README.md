@@ -280,7 +280,17 @@ python test_flaskr.py
   "message": "resource not found"
 }
 ```
+### Error 405
+- Returns an object with these keys: `success`, `error` and `message`.
+  
+```json
+{
+  "success": false,
+  "error": 405,
+  "message": "method not allowed"
 
+}
+```
 ### Error 422
 - Returns an object with these keys: `success`, `error` and `message`.
 
@@ -289,16 +299,5 @@ python test_flaskr.py
   "success": false,
   "error": 422,
   "message": "unprocessable"
-}
-```
-
-### Error 500
-- Returns an object with these keys: `success`, `error` and `message`.
-
-```json
-{
-  "success": false,
-  "error": 500,
-  "message": "internal server error"
 }
 ```
