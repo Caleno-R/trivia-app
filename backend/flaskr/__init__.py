@@ -1,4 +1,3 @@
-import datetime
 import os
 import sys
 from tkinter import NO

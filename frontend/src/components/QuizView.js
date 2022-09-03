@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { StyleSheet } from 'react-native';
 import $ from 'jquery';
 import '../stylesheets/QuizView.css';
 
