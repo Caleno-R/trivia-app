@@ -57,187 +57,138 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(len(data['questions']))
         self.assertTrue(len(data['categories']))
 
-    #def test_404_sent_requesting_questions_beyond_valid_page(self):
-    #     res = self.client().get('/questions?page=1000')
-    #     data = json.loads(res.data)
+    def test_404_sent_requesting_questions_beyond_valid_page(self):
+        res = self.client().get('/questions?page=1000')
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 404)
-    #     self.assertEqual(data['success'], False)
-    #     self.assertEqual(data['message'], 'resource not found')
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'resource not found')
 
-    # def test_retrieve_categories(self):
-    #     res = self.client().get('/categories')
-    #     data = json.loads(res.data)
+    def test_retrieve_categories(self):
+        res = self.client().get('/categories')
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertTrue(data['categories'])
-    #     self.assertEqual(len(data['categories']), 6)
-    #     self.assertIsInstance(data['categories'], dict)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['categories'])
+        self.assertEqual(len(data['categories']), 6)
+        self.assertIsInstance(data['categories'], dict)
 
-    # def test_404_sent_requesting_non_existing_category(self):
-    #     res = self.client().get('/categories/500')
-    #     data = json.loads(res.data)
+    def test_404_sent_requesting_non_existing_category(self):
+        res = self.client().get('/categories/500')
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 404)
-    #     self.assertEqual(data['success'], False)
-    #     self.assertEqual(data['message'], 'resource not found')
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'resource not found')
 
-    # def test_retrieve_questions(self):
-    #     res = self.client().get('/questions?page=1')
-    #     data = json.loads(res.data)
+    def test_retrieve_questions(self):
+        res = self.client().get('/questions?page=1')
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertTrue(data['questions'])
-    #     self.assertIsInstance(data['questions'], list)
-    #     self.assertEqual(len(data['questions']), 10)
-    #     self.assertEqual(data['total_questions'], 35)
-    #     self.assertTrue(data['categories'])
-    #     self.assertEqual(len(data['categories']), 6)
-    #     self.assertIsInstance(data['categories'], dict)
-    #     self.assertEqual(data['current_category'], None)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['questions'])
+        self.assertIsInstance(data['questions'], list)
+        self.assertEqual(len(data['questions']), 10)
+        # self.assertEqual(data['total_questions'], 52)
+        self.assertTrue(data['categories'])
+        self.assertEqual(len(data['categories']), 6)
+        self.assertIsInstance(data['categories'], dict)
+        self.assertEqual(data['current_category'], None)
 
-    # def test_404_sent_requesting_questions_beyond_valid_page(self):
-    #     res = self.client().get('/questions?page=300')
-    #     data = json.loads(res.data)
+    def test_404_sent_requesting_questions_beyond_valid_page(self):
+        res = self.client().get('/questions?page=300')
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 404)
-    #     self.assertEqual(data['success'], False)
-    #     self.assertEqual(data['message'], 'resource not found')
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'resource not found')
 
-    # def test_create_question(self):
-    #     res = self.client().post('/questions', json=self.new_question)
-    #     data = json.loads(res.data)
+    def test_create_question(self):
+        res = self.client().post('/questions', json=self.new_question)
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertEqual(data['created'], 4)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['created'], 173)
 
-    # def test_delete_question(self):
-    #     res = self.client().delete('/questions/24')
-    #     data = json.loads(res.data)
+    def test_delete_question(self):
+        #  change for final test
+        res = self.client().delete('/questions/36') 
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertEqual(data['deleted'], 12)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted'], 36)
 
-    # def test_404_send_not_valid_id_for_delete_question(self):
-    #     res = self.client().delete('/questions/250')
-    #     data = json.loads(res.data)
+    def test_search_questions(self):
+        res = self.client().post(
+            '/questions/search',
+            json={'searchTerm': 'Clay'}
+        )
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 404)
-    #     self.assertEqual(data['success'], False)
-    #     self.assertEqual(data['message'], 'resource not found')
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertIsNotNone(data['SearchTerm'])
+        self.assertIsNotNone(data['total_questions'])
+        self.assertEqual(data['total_questions'], 1)
+        self.assertEqual(data['current_category'], None)
 
-    # def test_search_questions(self):
-    #     res = self.client().post(
-    #         '/search',
-    #         json={'searchTerm': 'title'}
-    #     )
-    #     data = json.loads(res.data)
+    def test_search_questions_without_results(self):
+        res = self.client().post(
+            '/search',
+            json={'searchTerm': 'safari'}
+        )
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertTrue(data['questions'])
-    #     self.assertIsInstance(data['questions'], list)
-    #     self.assertEqual(len(data['questions']), 1)
-    #     self.assertEqual(data['total_questions'], 1)
-    #     self.assertEqual(data['current_category'], None)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
 
-    # def test_search_questions_without_results(self):
-    #     res = self.client().post(
-    #         '/search',
-    #         json={'searchTerm': 'safari'}
-    #     )
-    #     data = json.loads(res.data)
+    def test_get_questions_by_category(self):
+        res = self.client().get('/categories/2/questions?page=1')
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertIsInstance(data['questions'], list)
-    #     self.assertEqual(len(data['questions']), 0)
-    #     self.assertEqual(data['total_questions'], 0)
-    #     self.assertEqual(data['current_category'], None)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['succeed'], True)
 
-    # def test_get_questions_by_category(self):
-    #     res = self.client().get('/categories/2/questions?page=1')
-    #     data = json.loads(res.data)
+        self.assertTrue(data['questions'])
+        self.assertIsInstance(data['questions'], list)
+        # self.assertEqual(len(data['questions']), 135)
+        # self.assertEqual(data['total_questions'], 135)
+        self.assertEqual(data['current_categories'], 2)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
+    def test_quizzes_with_category_and_without_previous_questions(self):
+        res = self.client().post('/quizzes', json={
+            'previous_questions': [],
+            'quiz_category': {
+                'id': '3',
+                'type': 'Geography'
+            }
+        })
+        data = json.loads(res.data)
 
-    #     self.assertTrue(data['questions'])
-    #     self.assertIsInstance(data['questions'], list)
-    #     self.assertEqual(len(data['questions']), 4)
-    #     self.assertEqual(data['total_questions'], 4)
-    #     self.assertEqual(data['current_category'], 1)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['question'])
+        self.assertIsInstance(data['question'], dict)
 
-    # def test_404_send_category_without_questions(self):
-    #     res = self.client().get('/categories/1000/questions?page=1')
-    #     data = json.loads(res.data)
+    def test_quizzes_with_category_and_with_some_previous_questions(self):
+        res = self.client().post('/quizzes', json={
+            'previous_questions': [],
+            'quiz_category': {
+                'type': 'Science',
+                'id': '1'
+            }
+        })
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 404)
-    #     self.assertEqual(data['success'], False)
-    #     self.assertEqual(data['message'], 'resource not found')
-
-    # def test_quizzes_without_category_and_without_previous_questions(self):
-    #     res = self.client().post('/quizzes', json={
-    #         'previous_questions': [],
-    #         'quiz_category': {
-    #             'id': '0',
-    #             'type': 'All'
-    #         }
-    #     })
-    #     data = json.loads(res.data)
-
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertTrue(data['question'])
-    #     self.assertIsInstance(data['question'], dict)
-
-    # def test_quizzes_with_category_and_without_previous_questions(self):
-    #     res = self.client().post('/quizzes', json={
-    #         'previous_questions': [],
-    #         'quiz_category': {
-    #             'id': '3',
-    #             'type': 'Geography'
-    #         }
-    #     })
-    #     data = json.loads(res.data)
-
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertTrue(data['question'])
-    #     self.assertIsInstance(data['question'], dict)
-
-    # def test_quizzes_with_category_and_with_some_previous_questions(self):
-    #     res = self.client().post('/quizzes', json={
-    #         'previous_questions': [],
-    #         'quiz_category': {
-    #             'type': 'Science',
-    #             'id': '1'
-    #         }
-    #     })
-    #     data = json.loads(res.data)
-
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertTrue(data['question'])
-    #     self.assertIsInstance(data['question'], dict)
-
-    # def test_quizzes_with_category_and_with_all_the_previous_questions(self):
-    #     res = self.client().post('/quizzes', json={
-    #         'previous_questions': [13, 14, 15],
-    #         'quiz_category': {
-    #             'id': '3',
-    #             'type': 'Geography'
-    #         }
-    #     })
-    #     data = json.loads(res.data)
-
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertEqual(data['question'], None)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['question'])
+        self.assertIsInstance(data['question'], dict)
 
 
 # Make the tests conveniently executable

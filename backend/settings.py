@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 import os
-load_dotenv('dotenv')
+
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(BASEDIR,'.env'))
 
 DB_NAME = os.environ.get('DB_NAME')
 DB_USER = os.environ.get('DB_USER')
